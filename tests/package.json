@@ -1,0 +1,9 @@
+{
+    "name":"labs-base64-tests",
+    "version":"0.0.1",
+    "private":true,
+    "dependencies":{
+        "jasmine-node":"1.0.26",
+        "memorystream":"0.2.0"
+    }
+}
