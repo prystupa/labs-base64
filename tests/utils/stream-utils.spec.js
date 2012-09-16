@@ -65,6 +65,15 @@ describe("Base64 Decode Stream", function () {
         ]));
     });
 
+    describe('when I feed a MIME-like new line separated encoded string in two chunks, with first chunk including incomplete line', function () {
+        beforeEach(write("MC4uLi4uLi4uLjEuLi4uLi4uLi4yLi4uLi4uLi4uMy4uLi4uLi4uLjQuLi4uLi4uLi41Li4uLi4u" + "\r\n" + "Li4"));
+        beforeEach(write("uNi4uLi4uLi4uLjcuLi4uLi4uLi4="));
+
+        it('writes properly decoded string to output stream', expectOutput([
+            "0.........1.........2.........3.........4.........5......",
+            "...6.........7........."
+        ]));
+    });
 
     function write(string) {
         return function () {
