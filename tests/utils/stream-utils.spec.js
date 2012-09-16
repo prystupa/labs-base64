@@ -36,6 +36,25 @@ describe("Base64 Decode Stream", function () {
         ]));
     });
 
+    describe('when I feed two small messages that are multiples of 4 when encoded', function () {
+        beforeEach(write("MC4uLi4u"));
+        beforeEach(write("Li4uLjEuLi4uLi4uLi4yLi4uLi4uLi4uMy4uLi4uLi4uLg=="));
+
+        it('writes properly decoded strings to output stream', expectOutput([
+            "0.....",
+            "....1.........2.........3........."
+        ]));
+    });
+
+    describe('when I feed 3 (not enough to decode) encoded characters and then the rest of the encoded string', function () {
+        beforeEach(write("MC4"));
+        beforeEach(write("uLi4uLi4uLjEuLi4uLi4uLi4yLi4uLi4uLi4uMy4uLi4uLi4uLg=="));
+
+        it('writes properly decoded string to output stream', expectOutput([
+            '0.........1.........2.........3.........'
+        ]));
+    });
+
     describe('when I feed a MIME-like new line separated encoded string', function () {
         beforeEach(write("" +
             "MC4uLi4uLi4uLjEuLi4uLi4uLi4yLi4uLi4uLi4uMy4uLi4uLi4uLjQuLi4uLi4uLi41Li4uLi4u" + "\r\n" +
@@ -45,6 +64,7 @@ describe("Base64 Decode Stream", function () {
             "0.........1.........2.........3.........4.........5.........6.........7........."
         ]));
     });
+
 
     function write(string) {
         return function () {
